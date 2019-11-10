@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UCAS-LIB讲座管理系统</title>
+    <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+    <script src="/webjars/jquery/3.0.0//jquery.min.js"></script>
+    <script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+    <script type="text/JavaScript">
+        var geolocation = new qq.maps.Geolocation("E5RBZ-OSG6W-O3ORT-ODJB5-ZRWD2-C4F52", "ucas");
+
+        var options = {timeout: 8000};
+
+        function showErr() {
+            alert("定位失败！请重试！")
+        };
+
+    </script>
+
+
+    <script type="text/javascript">
+        function startLecture(id){
+
+            geolocation.getLocation(function(position){
+                console.log(position)
+                // console.log(position.lat, position.lng)
+                // console.log(id)
+
+                $.post("/lib-lecture-admin/updateLectureState", {lat:position.lat, lng:position.lng, state:"进行中", id:id}, function(resdata) {
+                    // console.log(resdata)
+                    if(resdata == "success"){
+                        location.reload()
+                    }else if(resdata == "error"){
+                        alert("请重试！")
+                    }
+                });
+
+            }, showErr, options)
+        }
+        function stopLecture(id){
+            // console.log(id)
+            $.post("/lib-lecture-admin/stopLecture", {id:id}, function(resdata) {
+                // console.log(resdata)
+                if(resdata == "success"){
+                    location.reload()
+                }else if(resdata == "error"){
+                    alert("请重试！")
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/lib-lecture-admin/lecturelist">UCAS讲座管理系统</a>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/lib-lecture-admin/lecturelist">主页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/lib-lecture-admin/logout">退出</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+    <div style="height:30px;"></div>
+    <div class="container">
+        <div class="card-header">
+            讲座列表<a class="float-right btn btn-info btn-sm" href="/lib-lecture-admin/createLecture">新建讲座</a>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item" th:each="liblecture : ${liblectures}">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h5><a href="" th:text="${liblecture.name}"></a></h5>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>
+                            <span style="float: right;"  th:text="${liblecture.place}"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="float-right">
+                        <button th:if="${liblecture.status =='未开始'}" th:onclick="startLecture([[${liblecture.id}]]);" class="btn btn-info btn-sm">开始</button>
+                        <button th:if="${liblecture.status =='进行中'}" th:onclick="stopLecture([[${liblecture.id}]]);" class="btn btn-danger btn-sm">结束</button>
+                        <button th:if="${liblecture.status =='已结束'}" disabled class="btn btn-primary btn-sm">已结束</button>
+                        <a th:if="${liblecture.status =='已结束'}" href="/lib-lecture-admin/prize" class="btn btn-success btn-sm">抽奖</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</body>

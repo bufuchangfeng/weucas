@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UCAS-LIB讲座管理系统</title>
+    <script src="/webjars/jquery/3.0.0//jquery.min.js"></script>
+    <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/lib-lecture-admin/lecturelist">UCAS讲座管理系统</a>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/lib-lecture-admin/lecturelist">主页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/lib-lecture-admin/logout">退出</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div style="height:30px;"></div>
+
+    <div class="container">
+        <form method="post" action="/lib-lecture-admin/addLecture">
+            <div class="form-group">
+                <label for="name">讲座名称</label>
+                <input class="form-control" id="name" name="name" placeholder="请输入讲座名称">
+            </div>
+            <div class="form-group">
+                <label for="place">讲座地点</label>
+                <input class="form-control" name="place" id="place" placeholder="请输入讲座地点">
+            </div>
+
+            <div class="form-group">
+                <label for="time">讲座时间</label>
+                <input class="form-control" name="time" id="time" placeholder="请输入讲座时间">
+            </div>
+
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</body>
+</html>

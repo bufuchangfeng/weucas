@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UCAS-LIB讲座管理系统</title>
+    <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:if="${errmsg}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>登录失败！</strong> 用户名或密码错误！
+    </div>
+</div>
+    <div class="container">
+        <div class="nav flex-column justify-content-center" style="height:800px;">
+            <div class="row justify-content-md-center">
+                <div class="col col-lg-2">
+                </div>
+                <div class="col-md-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" action="/lib-lecture-admin/dologin">
+                                <div class="form-group">
+                                    <label for="username">用户名</label>
+                                    <input class="form-control" id="username" name="username" placeholder="请输入用户名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">密码</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+                                </div>
+                                <button type="submit" class="btn btn-primary">登录</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-lg-2">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
