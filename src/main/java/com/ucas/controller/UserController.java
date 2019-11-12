@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ucas.entity.User;
 import com.ucas.mapper.UserMapper;
 import com.ucas.service.UserService;
+import com.ucas.utils.AES;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 /**
  * <p>
@@ -65,7 +64,15 @@ public class UserController {
         map.put("openid", openid);
 
         List<User> users = userMapper.selectByMap(map);
-        return userService.GetScores(users.get(0).getUsername(), users.get(0).getPassword());
+
+        try{
+            byte[] password = AES.decrypt(Base64.getDecoder().decode(users.get(0).getPassword()), AES.GetKey(users.get(0).getUsername()),  AES.iv);
+            return userService.GetScores(users.get(0).getUsername(), new String(password, StandardCharsets.UTF_8));
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
     }
 
 
@@ -85,13 +92,13 @@ public class UserController {
         String mail = httpServletRequest.getParameter("mail");
         String password = httpServletRequest.getParameter("password");
 
-        System.out.println(openid);
-        System.out.println(mail);
-        System.out.println(password);
+//        System.out.println(openid);
+//        System.out.println(mail);
+//        System.out.println(password);
 
         String res = userService.CheckMailAndPass(mail, password);
 
-        System.out.println(res);
+//        System.out.println(res);
 
         if(res == "false"){
             // we do nothing here
@@ -106,9 +113,19 @@ public class UserController {
                 User user = new User();
                 user.setOpenid(openid);
                 user.setUsername(mail);
-                user.setPassword(password);
-                user.setLecture("0");
-                userMapper.insert(user);
+
+                // add encryption function
+
+                try{
+                    byte[] text = password.getBytes(StandardCharsets.UTF_8);
+                    byte[] cipherText = AES.encrypt(text, AES.GetKey(mail), AES.iv);
+                    String base64String = Base64.getEncoder().encodeToString(cipherText);
+                    user.setPassword(base64String);
+                    user.setLecture("0");
+                    userMapper.insert(user);
+                }catch (Exception e){
+
+                }
             }
             else{
                 // we do nothing here.

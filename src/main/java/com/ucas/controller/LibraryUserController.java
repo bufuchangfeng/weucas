@@ -4,6 +4,7 @@ import com.ucas.entity.LibraryUser;
 import com.ucas.mapper.LibraryUserMapper;
 import com.ucas.service.LibraryUserService;
 
+import com.ucas.utils.AES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +50,19 @@ public class LibraryUserController {
 
             LibraryUser libraryUser = new LibraryUser();
             libraryUser.setUsername(username);
-            libraryUser.setPassword(password);
-            libraryUser.setOpenid(openid);
 
-            libraryUserService.save(libraryUser);
+            try{
+                byte[] text = password.getBytes(StandardCharsets.UTF_8);
+                byte[] cipherText = AES.encrypt(text, AES.GetKey(username), AES.iv);
+                String base64String = Base64.getEncoder().encodeToString(cipherText);
+                libraryUser.setPassword(base64String);
+                libraryUser.setOpenid(openid);
+
+                libraryUserService.save(libraryUser);
+
+            }catch (Exception e){
+
+            }
 
             return "success";
         }else if(res == "error"){
@@ -69,7 +81,15 @@ public class LibraryUserController {
         map.put("openid", openid);
 
         List<LibraryUser> libraryUsers = libraryUserMapper.selectByMap(map);
-        return libraryUserService.QueryBorrowedBooks(libraryUsers.get(0).getUsername(), libraryUsers.get(0).getPassword());
+
+        try{
+            byte[] password = AES.decrypt(Base64.getDecoder().decode(libraryUsers.get(0).getPassword()), AES.GetKey(libraryUsers.get(0).getUsername()),  AES.iv);
+            return libraryUserService.QueryBorrowedBooks(libraryUsers.get(0).getUsername(), new String(password, StandardCharsets.UTF_8));
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
