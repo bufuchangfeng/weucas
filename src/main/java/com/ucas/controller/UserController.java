@@ -57,6 +57,16 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/get_scores", method = RequestMethod.POST)
+    public String GetScores(HttpServletRequest request) {
+        String openid = request.getParameter("openid");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("openid", openid);
+
+        List<User> users = userMapper.selectByMap(map);
+        return userService.GetScores(users.get(0).getUsername(), users.get(0).getPassword());
+    }
 
 
     @RequestMapping(value = "/quit", method = RequestMethod.POST)

@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
     String CheckMailAndPass(String mail, String password);
+    String GetScores(String mail, String password);
 }
