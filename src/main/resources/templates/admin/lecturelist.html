@@ -86,8 +86,7 @@
 
                         <button  th:if="${liblecture.status =='未开始' || liblecture.status =='进行中'}" class="btn btn-success btn-sm" th:onclick="setLectureLocation([[${liblecture.id}]]);">获取地理位置</button>
 
-
-                        <a th:if="${liblecture.status =='已结束'}" href="/lib-lecture-admin/prize" class="btn btn-success btn-sm">抽奖</a>
+                        <a th:if="${liblecture.status =='已结束'}" th:href="@{'/lib-lecture-admin/prize?id=' + ${liblecture.id}}"  class="btn btn-success btn-sm">抽奖</a>
                     </div>
                 </div>
             </li>

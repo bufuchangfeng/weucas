@@ -48,6 +48,15 @@ public class LibraryUserController {
 
         if(res == "success"){
 
+            Map<String, Object> m = new HashMap<>();
+            m.put("openid", openid);
+            m.put("username", username);
+
+            List<LibraryUser> users = libraryUserMapper.selectByMap(m);
+            if(users.size() != 0) {
+                return "success";
+            }
+
             LibraryUser libraryUser = new LibraryUser();
             libraryUser.setUsername(username);
 

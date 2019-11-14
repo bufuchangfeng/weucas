@@ -26,7 +26,7 @@ public class Liblecturerecord extends Model<Liblecturerecord> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer stulibId;
+    private String stulibId;
 
     private Integer liblectureId;
 
