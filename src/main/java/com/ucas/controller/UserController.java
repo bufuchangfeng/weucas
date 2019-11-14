@@ -138,7 +138,7 @@ public class UserController {
     public String QQLogin(HttpServletRequest httpServletRequest) {
         String code = httpServletRequest.getParameter("code");
 
-        System.out.println(code);
+//        System.out.println(code);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.cookieJar(new CookieJar() {
@@ -164,7 +164,7 @@ public class UserController {
             Response response = okHttpClient.newCall(request).execute();
             if (response.isSuccessful()) {
                 String body =  response.body().string();
-                System.out.println(body);
+//                System.out.println(body);
                 return body;
             } else {
                 throw new IOException("Unexpected code " + response);

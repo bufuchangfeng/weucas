@@ -7,9 +7,12 @@
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="place" property="place" />
-        <result column="status" property="status" />
         <result column="position" property="position" />
         <result column="who" property="who" />
+        <result column="start_time" property="startTime" />
+        <result column="status" property="status" />
+        <result column="end_time" property="endTime" />
+        <result column="content" property="content" />
     </resultMap>
 
 </mapper>

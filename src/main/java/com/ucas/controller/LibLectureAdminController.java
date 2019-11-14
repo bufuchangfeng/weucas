@@ -75,7 +75,9 @@ public class LibLectureAdminController {
     public String AddLecture(HttpServletRequest request, Model model){
         String name = request.getParameter("name");
         String place = request.getParameter("place");
-        String time = request.getParameter("time");
+        String start_time = request.getParameter("start_time");
+        String end_time = request.getParameter("end_time");
+        String content = request.getParameter("content");
 
         LibLectureAdmin admin = (LibLectureAdmin)request.getSession().getAttribute("userInfo");
 
@@ -84,8 +86,10 @@ public class LibLectureAdminController {
        liblecture.setPlace(place);
        liblecture.setStatus("未开始");
        liblecture.setWho(admin.getUsername());
-       liblecture.setTime(time);
+       liblecture.setStartTime(start_time);
+       liblecture.setEndTime(end_time);
        liblecture.setPosition("");
+       liblecture.setContent(content);
 
        Integer r = liblectureMapper.insert(liblecture);
         if(1 == r){
@@ -114,31 +118,12 @@ public class LibLectureAdminController {
         return "/admin/createlecture.html";
     }
 
-    @RequestMapping(value = "/stopLecture", method = RequestMethod.POST)
+    @RequestMapping(value = "/setLectureLocation", method = RequestMethod.POST)
     @ResponseBody
-    public String StopLecture(HttpServletRequest request){
-        Integer id = Integer.valueOf(request.getParameter("id"));
-        UpdateWrapper<Liblecture> wrapper = new UpdateWrapper<>();
-
-        wrapper.eq("id", id);
-
-        Liblecture liblecture = new Liblecture();
-        liblecture.setStatus("已结束");
-        int rows= liblectureMapper.update(liblecture, wrapper);
-        if(rows == 1){
-            return "success";
-        }else{
-            return "error";
-        }
-    }
-
-    @RequestMapping(value = "/updateLectureState", method = RequestMethod.POST)
-    @ResponseBody
-    public String UpdateLectureState(HttpServletRequest request){
+    public String SetLectureLocation(HttpServletRequest request){
         Integer id = Integer.valueOf(request.getParameter("id"));
         String lat = request.getParameter("lat");
         String lng = request.getParameter("lng");
-        String state = request.getParameter("state");
 
         UpdateWrapper<Liblecture> wrapper = new UpdateWrapper<>();
 
@@ -146,7 +131,6 @@ public class LibLectureAdminController {
 
         Liblecture liblecture = new Liblecture();
         liblecture.setPosition(lat + " " + lng);
-        liblecture.setStatus(state);
         int rows= liblectureMapper.update(liblecture, wrapper);
         if(rows == 1){
             return "success";

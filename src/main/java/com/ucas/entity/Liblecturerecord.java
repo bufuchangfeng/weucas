@@ -19,28 +19,16 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Liblecture extends Model<Liblecture> {
+public class Liblecturerecord extends Model<Liblecturerecord> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String name;
+    private Integer stulibId;
 
-    private String place;
-
-    private String position;
-
-    private String who;
-
-    private String startTime;
-
-    private String status;
-
-    private String endTime;
-
-    private String content;
+    private Integer liblectureId;
 
 
     @Override

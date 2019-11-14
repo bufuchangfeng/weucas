@@ -103,7 +103,7 @@ public class MysqlGenerator {
         // 设置逻辑删除键
         strategy.setLogicDeleteFieldName("deleted");
         // TODO 指定生成的bean的数据库表名
-        strategy.setInclude("liblecture");
+        strategy.setInclude("liblecturerecord");
 //        strategy.setSuperEntityColumns("id");
 //        strategy.setSuperEntityColumns("usernmae");
 //        strategy.setSuperEntityColumns("password");

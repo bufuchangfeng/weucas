@@ -1,6 +1,6 @@
 package com.ucas.mapper;
 
-import com.ucas.entity.Liblecture;
+import com.ucas.entity.Liblecturerecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author yuchen
  * @since 2019-11-14
  */
-public interface LiblectureMapper extends BaseMapper<Liblecture> {
+public interface LiblecturerecordMapper extends BaseMapper<Liblecturerecord> {
 
 }

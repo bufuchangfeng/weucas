@@ -3,10 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>UCAS-LIB讲座管理系统</title>
-    <script src="/webjars/jquery/3.0.0//jquery.min.js"></script>
+
+    <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
     <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<!--    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+<!--    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
+
+
+<!--    <script src="/js/jquery-ui.min.js"></script>-->
+<!--    <link href="/css/jquery-ui.min.css" rel="stylesheet" />-->
+<!--    <script src="/js/jquery-ui-timepicker-addon.js"></script>-->
+<!--    <link href="/css/jquery-ui-timepicker-addon.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 </head>
 <body>
@@ -30,25 +39,43 @@
 </nav>
 
 <div style="height:30px;"></div>
-
     <div class="container">
         <form method="post" action="/lib-lecture-admin/addLecture">
             <div class="form-group">
                 <label for="name">讲座名称</label>
-                <input class="form-control" id="name" name="name" placeholder="请输入讲座名称">
+                <input required class="form-control" id="name" name="name" placeholder="请输入讲座名称">
             </div>
             <div class="form-group">
                 <label for="place">讲座地点</label>
-                <input class="form-control" name="place" id="place" placeholder="请输入讲座地点">
+                <input required class="form-control" name="place" id="place" placeholder="请输入讲座地点">
+            </div>
+            <div class="form-group">
+                <label for="who">讲座地点</label>
+                <input required class="form-control" name="who" id="who" placeholder="请输入主讲人">
             </div>
 
             <div class="form-group">
-                <label for="time">讲座时间</label>
-                <input class="form-control" name="time" id="time" placeholder="请输入讲座时间">
+                <label for="start_time">讲座开始时间</label>
+                <input required class="form-control" name="start_time" id="start_time" placeholder="请输入结束时间">
+            </div>
+            <div class="form-group">
+                <label for="end_time">讲座结束时间</label>
+                <input required class="form-control" name="end_time" id="end_time" placeholder="请输入结束时间">
+            </div>
+
+            <div class="form-group">
+                <label for="content">讲座简介</label>
+                <textarea required class="form-control" id="content" name="content" rows="7"></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">提交</button>
         </form>
     </div>
+<script>
+    $("#start_time").flatpickr({
+        enableTime: true});
+    $("#end_time").flatpickr({
+        enableTime: true});
+</script>
 </body>
 </html>

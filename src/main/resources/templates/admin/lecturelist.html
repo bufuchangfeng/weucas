@@ -19,14 +19,14 @@
 
 
     <script type="text/javascript">
-        function startLecture(id){
+        function setLectureLocation(id){
 
             geolocation.getLocation(function(position){
                 console.log(position)
                 // console.log(position.lat, position.lng)
                 // console.log(id)
 
-                $.post("/lib-lecture-admin/updateLectureState", {lat:position.lat, lng:position.lng, state:"进行中", id:id}, function(resdata) {
+                $.post("/lib-lecture-admin/setLectureLocation", {lat:position.lat, lng:position.lng, id:id}, function(resdata) {
                     // console.log(resdata)
                     if(resdata == "success"){
                         location.reload()
@@ -36,17 +36,6 @@
                 });
 
             }, showErr, options)
-        }
-        function stopLecture(id){
-            // console.log(id)
-            $.post("/lib-lecture-admin/stopLecture", {id:id}, function(resdata) {
-                // console.log(resdata)
-                if(resdata == "success"){
-                    location.reload()
-                }else if(resdata == "error"){
-                    alert("请重试！")
-                }
-            });
         }
 
     </script>
@@ -90,9 +79,14 @@
                 </div>
                 <div class="row">
                     <div class="float-right">
-                        <button th:if="${liblecture.status =='未开始'}" th:onclick="startLecture([[${liblecture.id}]]);" class="btn btn-info btn-sm">开始</button>
-                        <button th:if="${liblecture.status =='进行中'}" th:onclick="stopLecture([[${liblecture.id}]]);" class="btn btn-danger btn-sm">结束</button>
+<!--                        th:onclick="startLecture([[${liblecture.id}]]);" -->
+                        <button th:if="${liblecture.status =='未开始'}" disabled class="btn btn-primary btn-sm">未开始</button>
+                        <button th:if="${liblecture.status =='进行中'}" disabled class="btn btn-primary btn-sm">进行中</button>
                         <button th:if="${liblecture.status =='已结束'}" disabled class="btn btn-primary btn-sm">已结束</button>
+
+                        <button  th:if="${liblecture.status =='未开始' || liblecture.status =='进行中'}" class="btn btn-success btn-sm" th:onclick="setLectureLocation([[${liblecture.id}]]);">获取地理位置</button>
+
+
                         <a th:if="${liblecture.status =='已结束'}" href="/lib-lecture-admin/prize" class="btn btn-success btn-sm">抽奖</a>
                     </div>
                 </div>

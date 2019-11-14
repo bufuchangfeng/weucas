@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author yuchen
- * @since 2019-11-09
+ * @since 2019-11-14
  */
 @Service
 public class LiblectureServiceImpl extends ServiceImpl<LiblectureMapper, Liblecture> implements LiblectureService {

@@ -1,6 +1,6 @@
 package com.ucas.service;
 
-import com.ucas.entity.Liblecture;
+import com.ucas.entity.Liblecturerecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author yuchen
  * @since 2019-11-14
  */
-public interface LiblectureService extends IService<Liblecture> {
+public interface LiblecturerecordService extends IService<Liblecturerecord> {
 
 }
