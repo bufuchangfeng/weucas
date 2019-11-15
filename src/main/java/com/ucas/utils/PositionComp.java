@@ -20,7 +20,7 @@ public class PositionComp {
 
     public static String GetPos(double latitude1, double longitude1, double latitude2, double longitude2){
 
-        double standardMeters = 300;    // The position is valid within 300 meters
+        double standardMeters = 450;    // The position is valid within 300 meters
 
         // GlobalCoordinates(double latitude, double longitude)
         GlobalCoordinates basePos = new GlobalCoordinates(latitude1, longitude1);

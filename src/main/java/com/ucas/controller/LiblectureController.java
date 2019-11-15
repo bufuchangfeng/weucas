@@ -73,7 +73,7 @@ public class LiblectureController {
         Double lat = Double.valueOf(request.getParameter("latitude"));
         Double lon = Double.valueOf(request.getParameter("longitude"));
 
-        if(liblectures.get(0).getPosition() == "" || liblectures.get(0).getPosition() == null){
+        if(liblectures.get(0).getPosition().equals("") || liblectures.get(0).getPosition().equals(null)){
             return "讲座位置还未确定！";
         }
 
@@ -81,7 +81,7 @@ public class LiblectureController {
         Double lat1 = Double.valueOf(temp[0]);
         Double lon1 = Double.valueOf(temp[1]);
 
-        if(PositionComp.GetPos(lat, lon, lat1, lon1) == "sign success!"){
+        if(PositionComp.GetPos(lat, lon, lat1, lon1).equals("sign success!")){
             String openid = request.getParameter("openid");
 
             map = new HashMap<>();
@@ -100,7 +100,7 @@ public class LiblectureController {
 
             List<Liblecturerecord> liblecturerecords = liblecturerecordMapper.selectByMap(map);
             if(liblecturerecords.size() > 0){
-                return "签到成功！";
+                return "重复签到！";
             }
 
             Liblecturerecord record = new Liblecturerecord();
@@ -124,10 +124,10 @@ public class LiblectureController {
     @RequestMapping(value = "/getLectures", method = RequestMethod.POST)
     public List<Liblecture> GetLectures(HttpServletRequest request){
         String status = request.getParameter("status");
-        if(status == "null"){
+        if(status.equals("null")){
             // this would never happen now
             return null;
-        }else if(status != "已结束"){
+        }else if(!status.equals("已结束")){
             Map<String, Object> m = new HashMap<>();
             m.put("status", status);
 
